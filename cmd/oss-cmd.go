@@ -101,10 +101,66 @@ var putObjectCmd = &cobra.Command{
 	},
 }
 
+var uploadObjectCmd = &cobra.Command{
+	Use:   "upload",
+	Short: "upload object",
+	Long:  `multipart upload an object from file`,
+	Run: func(cmd *cobra.Command, args []string) {
+		// Do Stuff Here
+		log.Infof("upload object cmd")
+
+		c, err := getOssClient(cfg)
+		if err != nil {
+			return
+		}
+
+		bucket, err := c.Bucket(cfg.bucket)
+		if err != nil {
+			log.Errorf("%v", err)
+			return
+		}
+
+		err = bucket.UploadFile(cfg.object, cfg.file, 1*1024*124, oss.Routines(3), oss.Checkpoint(true, ""))
+		if err != nil {
+			log.Errorf("put object failed, err: %v", err)
+			return
+		}
+		log.Infof("put object success")
+	},
+}
+
+var downloadObjectCmd = &cobra.Command{
+	Use:   "download",
+	Short: "download object",
+	Long:  `download an object to local file`,
+	Run: func(cmd *cobra.Command, args []string) {
+		// Do Stuff Here
+		log.Infof("downlaod object cmd")
+
+		c, err := getOssClient(cfg)
+		if err != nil {
+			return
+		}
+
+		bucket, err := c.Bucket(cfg.bucket)
+		if err != nil {
+			log.Errorf("%v", err)
+			return
+		}
+
+		err = bucket.DownloadFile(cfg.object, cfg.file, 1*1024*124, oss.Routines(3), oss.Checkpoint(true, ""))
+		if err != nil {
+			log.Errorf("download object failed, err: %v", err)
+			return
+		}
+		log.Infof("download object success")
+	},
+}
+
 var getObjectCmd = &cobra.Command{
 	Use:   "get",
 	Short: "get object",
-	Long:  `download an object to local file`,
+	Long:  `get an object to local file`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// Do Stuff Here
 		log.Infof("get object cmd")
@@ -226,6 +282,8 @@ func init() {
 
 	putObjectCmd.Flags().StringVar(&cfg.file, "file", "test.jpg", "please input file path")
 	getObjectCmd.Flags().StringVar(&cfg.file, "file", "test.jpg", "please input file path")
+	uploadObjectCmd.Flags().StringVar(&cfg.file, "file", "test.jpg", "please input file path")
+	downloadObjectCmd.Flags().StringVar(&cfg.file, "file", "test.jpg", "please input file path")
 
 	rootCmd.AddCommand(listBucketsCmd)
 	rootCmd.AddCommand(listObjectsCmd)
@@ -233,6 +291,8 @@ func init() {
 	rootCmd.AddCommand(getObjectCmd)
 	rootCmd.AddCommand(getObjectMetadataCmd)
 	rootCmd.AddCommand(deleteObjectCmd)
+	rootCmd.AddCommand(uploadObjectCmd)
+	rootCmd.AddCommand(downloadObjectCmd)
 }
 
 func Execute() {
