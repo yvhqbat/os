@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"github.com/spf13/cobra"
 	"os"

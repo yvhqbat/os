@@ -1,7 +1,7 @@
 package main
 
 import (
-	"../cmd"
+	"osapp/cmd"
 )
 
 func main() {
