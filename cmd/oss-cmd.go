@@ -1,23 +1,11 @@
 package cmd
 
 import (
-	"fmt"
-	log "github.com/sirupsen/logrus"
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"os"
 )
 
-var rootCmd = &cobra.Command{
-	Use:   "oss",
-	Short: "this is a simple oss cli",
-	Long: `A Fast and Flexible oss cli in Go.
-                Complete documentation is available at liudong11`,
-	Run: func(cmd *cobra.Command, args []string) {
-		// Do Stuff Here
-		log.Infof("root cmd")
-	},
-}
 
 var listBucketsCmd = &cobra.Command{
 	Use:   "buckets",
@@ -273,31 +261,24 @@ func getOssClient(cfg config) (*oss.Client, error) {
 	return client, nil
 }
 
-func init() {
-	rootCmd.PersistentFlags().StringVar(&cfg.endpoint, "endpoint", "https://oss.hcs.com", "please input endpoint")
-	rootCmd.PersistentFlags().StringVar(&cfg.ak, "ak", "user01xg21q3d1U4y3F3IH1fo8OF9k6vXRKA4y6f35ASfV14r974F03q11klf93", "please input ak")
-	rootCmd.PersistentFlags().StringVar(&cfg.sk, "sk", "14u3X8S7WZ1Z1h5VC5R49rq039183tT6Rw3yWq6A1b98337851S352lW9lX28q9", "please input sk")
-	rootCmd.PersistentFlags().StringVar(&cfg.bucket, "bucket", "defaultBucket", "please input bucket name")
-	rootCmd.PersistentFlags().StringVar(&cfg.object, "object", "defaultObject", "please input object key")
+func RegisterOSSCmd(c *cobra.Command) {
+	c.PersistentFlags().StringVar(&cfg.endpoint, "endpoint", "https://oss.hcs.com", "please input endpoint")
+	c.PersistentFlags().StringVar(&cfg.sk, "sk", "14u3X8S7WZ1Z1h5VC5R49rq039183tT6Rw3yWq6A1b98337851S352lW9lX28q9", "please input sk")
+	c.PersistentFlags().StringVar(&cfg.bucket, "bucket", "defaultBucket", "please input bucket name")
+	c.PersistentFlags().StringVar(&cfg.object, "object", "defaultObject", "please input object key")
 
 	putObjectCmd.Flags().StringVar(&cfg.file, "file", "test.jpg", "please input file path")
 	getObjectCmd.Flags().StringVar(&cfg.file, "file", "test.jpg", "please input file path")
 	uploadObjectCmd.Flags().StringVar(&cfg.file, "file", "test.jpg", "please input file path")
 	downloadObjectCmd.Flags().StringVar(&cfg.file, "file", "test.jpg", "please input file path")
 
-	rootCmd.AddCommand(listBucketsCmd)
-	rootCmd.AddCommand(listObjectsCmd)
-	rootCmd.AddCommand(putObjectCmd)
-	rootCmd.AddCommand(getObjectCmd)
-	rootCmd.AddCommand(getObjectMetadataCmd)
-	rootCmd.AddCommand(deleteObjectCmd)
-	rootCmd.AddCommand(uploadObjectCmd)
-	rootCmd.AddCommand(downloadObjectCmd)
+	c.AddCommand(listBucketsCmd)
+	c.AddCommand(listObjectsCmd)
+	c.AddCommand(putObjectCmd)
+	c.AddCommand(getObjectCmd)
+	c.AddCommand(getObjectMetadataCmd)
+	c.AddCommand(deleteObjectCmd)
+	c.AddCommand(uploadObjectCmd)
+	c.AddCommand(downloadObjectCmd)
 }
 
-func Execute() {
-	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-}
