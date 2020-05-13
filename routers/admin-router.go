@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	adminAPIPathPrefix = "/os/admin"
+	adminAPIPathPrefix = "/admin"
 )
 
 
