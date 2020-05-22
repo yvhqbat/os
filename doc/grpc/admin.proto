@@ -1,0 +1,19 @@
+syntax="proto3";
+
+package models;
+
+service User{
+  rpc  AddUser(AddUserRequest) returns (AddUserResponse){}
+}
+
+message AddUserRequest{
+  string name = 1;
+  string password = 2;
+}
+
+message AddUserResponse{
+  int32 id =1;
+  string ak =2;
+  string sk=3;
+}
+
