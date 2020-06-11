@@ -3,17 +3,20 @@ syntax="proto3";
 package models;
 
 service User{
-  rpc  AddUser(AddUserRequest) returns (AddUserResponse){}
+  rpc  AddUser(UserInfo) returns (Response){}
 }
 
-message AddUserRequest{
-  string name = 1;
-  string password = 2;
+message UserInfo{
+  string AccessKey = 1;
+  string SecretKey = 2;
+  string PolicyName = 3;
+  string Status = 4;
+  repeated string MemberOf = 5;
 }
 
-message AddUserResponse{
-  int32 id =1;
-  string ak =2;
-  string sk=3;
+message Response{
+  int64 Code = 1;
+  string Msg = 2;
 }
 
+// protoc admin.proto --go_out=plugins=grpc:go

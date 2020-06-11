@@ -7,15 +7,15 @@ import (
 )
 
 func TestAddUserRequest_String(t *testing.T) {
-	req := &AddUserRequest{}
-	req.Name = "admin"
-	req.Password = "123456"
-	fmt.Println(req.GetName())
-	fmt.Println(req.GetPassword())
-	fmt.Println(req.String())
+	u := &UserInfo{}
+	u.AccessKey = "ak_123456"
+	u.SecretKey = "sk_123456"
+	fmt.Println(u.GetAccessKey())
+	fmt.Println(u.GetSecretKey())
+	fmt.Println(u.String())
 
 	// marshal
-	body, err := proto.Marshal(req)
+	body, err := proto.Marshal(u)
 	if err!=nil{
 		t.Error(err)
 		return
@@ -23,7 +23,7 @@ func TestAddUserRequest_String(t *testing.T) {
 	fmt.Println(body)
 
 	// unmarshal
-	req_unmashal := &AddUserRequest{}
+	req_unmashal := &UserInfo{}
 	err = proto.Unmarshal(body, req_unmashal)
 	if err!=nil{
 		t.Error(err)

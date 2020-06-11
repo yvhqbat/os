@@ -5,6 +5,7 @@ require (
 	github.com/astaxie/beego v1.12.1
 	github.com/baiyubin/aliyun-sts-go-sdk v0.0.0-20180326062324-cfa1a18b161f // indirect
 	github.com/go-sql-driver/mysql v1.5.0
+	github.com/golang/protobuf v1.3.5
 	github.com/gomodule/redigo v2.0.0+incompatible
 	github.com/gorilla/mux v1.7.4
 	github.com/satori/go.uuid v1.2.0 // indirect
@@ -14,4 +15,5 @@ require (
 	github.com/spf13/cobra v1.0.0
 	github.com/stretchr/objx v0.1.1 // indirect
 	github.com/stretchr/testify v1.4.0 // indirect
+	google.golang.org/grpc v1.21.0
 )
